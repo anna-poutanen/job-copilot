@@ -1,10 +1,9 @@
 # Job Co-Pilot
 
-*A command center I built to run my life and my co-op search from one place.*
-*— Anna Poutanen · Software Engineering @ Waterloo*
+*A command center I built to run my life and my co-op search from one place
 
 Between varsity nordic skiing, the Concrete Canoe and Electrium Mobility design
-teams, the clubs I'm in, tutoring / coaching / reffing on the side, and hunting
+teams, the clubs I'm in, tutoring, coaching, and reffing on the side, and hunting
 for co-op terms, I kept losing track of where I needed to be and which
 applications I'd actually sent. So I built the tool I wished existed: one screen
 that pulls my calendars and inboxes together, turns my email into a to-do list,
