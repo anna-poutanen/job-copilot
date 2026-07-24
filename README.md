@@ -1,6 +1,6 @@
 # Job Co-Pilot
 
-*A command center I built to run my life and my co-op search from one place
+*A command center I built to run my life and my co-op search from one place*
 
 Between varsity nordic skiing, the Concrete Canoe and Electrium Mobility design
 teams, the clubs I'm in, tutoring, coaching, and reffing on the side, and hunting
@@ -131,8 +131,3 @@ data/accounts.json     my calendars + email accounts (gitignored)
 
 My resume lives in `data/resume.md` (already loaded with mine). Everything the
 tool writes about me comes from there, so I keep it up to date.
-
-## Ideas I might build next
-- A morning brief that emails itself to me every day, so it just runs on its own.
-- A conflict + travel-gap detector on the agenda (practice → class with no time to get there).
-- Follow-up reminders that link the outreach tab to my inbox.
