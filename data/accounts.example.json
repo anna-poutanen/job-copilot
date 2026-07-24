@@ -1,0 +1,40 @@
+{
+  "_comment": "Copy this to accounts.json and fill in your own. accounts.json is gitignored so your secrets stay local.",
+
+  "calendars": [
+    {
+      "label": "Google (personal)",
+      "url": "https://calendar.google.com/calendar/ical/YOUR_ID/private-XXXX/basic.ics",
+      "_how": "Google Calendar > Settings > your calendar > 'Secret address in iCal format'."
+    },
+    {
+      "label": "Outlook / Waterloo",
+      "url": "https://outlook.office365.com/owa/calendar/XXXX/calendar.ics",
+      "_how": "Outlook > Settings > Calendar > Shared calendars > Publish a calendar > ICS link."
+    },
+    {
+      "label": "Class schedule",
+      "url": "https://example.edu/schedule/export.ics",
+      "_how": "Many course/schedule systems have an 'export to iCal' link."
+    }
+  ],
+
+  "email_accounts": [
+    {
+      "label": "Gmail (personal)",
+      "imap_host": "imap.gmail.com",
+      "imap_port": 993,
+      "user": "you@gmail.com",
+      "password": "your_16_char_app_password",
+      "_how": "Gmail: enable 2FA, then create an App Password. Basic-auth IMAP works."
+    },
+    {
+      "label": "Outlook (NOTE: may need OAuth)",
+      "imap_host": "outlook.office365.com",
+      "imap_port": 993,
+      "user": "you@outlook.com",
+      "password": "app_password_if_your_tenant_still_allows_basic_auth",
+      "_how": "Microsoft 365 has largely disabled basic-auth IMAP. If login fails, this account needs OAuth (Microsoft Graph) — see README."
+    }
+  ]
+}

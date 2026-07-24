@@ -1,0 +1,7 @@
+.env
+data/app.db
+data/accounts.json
+__pycache__/
+*.pyc
+.venv/
+venv/

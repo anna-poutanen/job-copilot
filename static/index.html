@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Job Co-Pilot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">◵</span>
+      <span class="brand-name">Job Co-Pilot</span>
+      <span class="brand-sub">software co-op command line</span>
+    </div>
+    <div id="status-chips" class="chips" aria-live="polite"></div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab is-active" data-tab="today" role="tab">00 · Today</button>
+    <button class="tab" data-tab="todos" role="tab">01 · To-dos</button>
+    <button class="tab" data-tab="find" role="tab">02 · Find jobs</button>
+    <button class="tab" data-tab="pipeline" role="tab">03 · Pipeline</button>
+    <button class="tab" data-tab="outreach" role="tab">04 · Outreach</button>
+    <button class="tab" data-tab="cover" role="tab">05 · Cover letter</button>
+    <button class="tab" data-tab="activity" role="tab">06 · Activity</button>
+  </nav>
+
+  <main>
+    <!-- ============ TODAY ============ -->
+    <section id="today" class="panel is-active">
+      <div class="panel-head">
+        <p class="eyebrow">Your day, in one place</p>
+        <h2>Today</h2>
+        <p class="lede">Every calendar merged into one agenda, plus a digest of recent
+          email across your accounts. Between varsity skiing, concrete canoe, clubs, and
+          work, this is the one screen that tells you where you actually need to be.</p>
+      </div>
+
+      <div class="card">
+        <div class="today-actions">
+          <button id="btn-brief" class="btn btn-primary">Generate morning brief</button>
+          <button id="btn-agenda" class="btn btn-ghost">Refresh agenda</button>
+          <label class="check inline"><input id="show-inbox" type="checkbox" checked> Include email digest</label>
+        </div>
+        <span id="today-note" class="note"></span>
+        <div id="brief-box" class="brief hidden"></div>
+      </div>
+
+      <div class="today-grid">
+        <div class="card">
+          <p class="eyebrow">Agenda</p>
+          <div id="agenda-list"><p class="empty">Click "Refresh agenda" to load your day.</p></div>
+        </div>
+        <div class="card">
+          <p class="eyebrow">Inbox</p>
+          <div id="inbox-list"><p class="empty">Add email accounts in data/accounts.json to see mail here.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TO-DOS ============ -->
+    <section id="todos" class="panel">
+      <div class="panel-head">
+        <p class="eyebrow">Pulled from your inbox</p>
+        <h2>To-dos</h2>
+        <p class="lede">Scan recent email and turn anything that needs an action —
+          replies, deadlines, registrations — into a checklist. Add your own too.</p>
+      </div>
+
+      <div class="card">
+        <div class="today-actions">
+          <button id="btn-extract" class="btn btn-primary">Scan email for tasks</button>
+          <span id="todo-note" class="note"></span>
+        </div>
+        <div class="todo-add">
+          <input id="todo-task" placeholder="Add a task manually…" />
+          <input id="todo-due" type="date" title="Due date (optional)" />
+          <select id="todo-prio" title="Priority">
+            <option value="high">High</option>
+            <option value="normal" selected>Normal</option>
+            <option value="low">Low</option>
+          </select>
+          <button id="btn-add-todo" class="btn btn-ghost">Add</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div id="todo-list"><p class="empty">No tasks yet. Scan your email or add one above.</p></div>
+      </div>
+    </section>
+
+    <!-- ============ FIND JOBS ============ -->
+    <section id="find" class="panel">
+      <div class="panel-head">
+        <p class="eyebrow">Public job feeds</p>
+        <h2>Find co-op &amp; intern postings</h2>
+        <p class="lede">Pulls early-career software roles from public, no-login job feeds
+          (Remotive, Arbeitnow, Greenhouse &amp; Lever boards, and Adzuna if you add a key).
+          It never touches LinkedIn or Indeed — those block scraping.</p>
+      </div>
+
+      <div class="card">
+        <div class="field-row">
+          <label class="field">
+            <span>Keyword</span>
+            <input id="job-query" placeholder="software intern, backend, ML…" />
+          </label>
+          <label class="field">
+            <span>Location</span>
+            <input id="job-location" placeholder="Toronto, Canada, remote…" />
+          </label>
+          <label class="field field-sm">
+            <span>Max results</span>
+            <input id="job-limit" type="number" value="60" min="5" max="200" />
+          </label>
+        </div>
+        <fieldset class="sources">
+          <legend>Sources</legend>
+          <label><input type="checkbox" value="remotive" checked> Remotive</label>
+          <label><input type="checkbox" value="arbeitnow" checked> Arbeitnow</label>
+          <label><input type="checkbox" value="greenhouse" checked> Greenhouse</label>
+          <label><input type="checkbox" value="lever" checked> Lever</label>
+          <label><input type="checkbox" value="adzuna"> Adzuna</label>
+        </fieldset>
+        <button id="btn-search" class="btn btn-primary">Search feeds</button>
+        <span id="search-note" class="note"></span>
+      </div>
+
+      <div id="jobs-list" class="results"></div>
+    </section>
+
+    <!-- ============ PIPELINE ============ -->
+    <section id="pipeline" class="panel">
+      <div class="panel-head">
+        <p class="eyebrow">Application tracker</p>
+        <h2>Pipeline</h2>
+        <p class="lede">Every role you're pursuing, by stage. Track jobs from the Find tab,
+          or add ones you found elsewhere. Move a card with its stage menu.</p>
+      </div>
+
+      <div class="card">
+        <div class="pipe-add">
+          <input id="p-company" placeholder="Company" />
+          <input id="p-role" placeholder="Role" />
+          <input id="p-url" placeholder="Link (optional)" />
+          <button id="btn-add-app" class="btn btn-ghost">Add application</button>
+        </div>
+        <span id="pipe-note" class="note"></span>
+      </div>
+
+      <div id="pipeline-board" class="board"></div>
+    </section>
+
+    <!-- ============ OUTREACH ============ -->
+    <section id="outreach" class="panel">
+      <div class="panel-head">
+        <p class="eyebrow">Cold outreach</p>
+        <h2>Write &amp; send outreach</h2>
+        <p class="lede">Generates an email and a LinkedIn DM grounded in your resume.
+          Edit anything before it goes out. Sending starts in <strong>preview mode</strong>
+          — nothing is emailed until you turn that off.</p>
+      </div>
+
+      <div class="card">
+        <div class="field-row">
+          <label class="field"><span>Company</span><input id="o-company" placeholder="Shopify" /></label>
+          <label class="field"><span>Role / area</span><input id="o-role" placeholder="Backend co-op" /></label>
+        </div>
+        <div class="field-row">
+          <label class="field"><span>Contact name (optional)</span><input id="o-contact" placeholder="Priya Sharma" /></label>
+          <label class="field"><span>Contact email (optional)</span><input id="o-email" placeholder="name@company.com" /></label>
+        </div>
+        <div class="field-row">
+          <label class="field"><span>Job link (optional)</span><input id="o-url" placeholder="https://…" /></label>
+          <label class="field"><span>Company site for research (optional)</span><input id="o-research-url" placeholder="company.com" /></label>
+        </div>
+        <label class="check"><input id="o-research" type="checkbox" checked> Research the company first (Wikipedia + site)</label>
+        <button id="btn-gen-outreach" class="btn btn-primary">Generate outreach</button>
+        <span id="outreach-note" class="note"></span>
+      </div>
+
+      <div id="outreach-output" class="card hidden">
+        <label class="field"><span>Email subject</span><input id="out-subject" /></label>
+        <label class="field"><span>Email body</span><textarea id="out-email" rows="10"></textarea></label>
+        <label class="field"><span>LinkedIn DM (copy-paste — LinkedIn has no send API)</span><textarea id="out-dm" rows="4"></textarea></label>
+        <button class="btn btn-ghost" data-copy="out-dm">Copy DM</button>
+
+        <div class="send-box">
+          <p class="eyebrow">Send email</p>
+          <label class="field field-sm"><span>To</span><input id="send-to" placeholder="name@company.com" /></label>
+          <label class="check danger">
+            <input id="send-live" type="checkbox">
+            <span><strong>Actually send</strong> (unchecked = preview only, safe)</span>
+          </label>
+          <button id="btn-send" class="btn btn-send">Preview send</button>
+          <span id="send-note" class="note"></span>
+          <p class="fineprint">Cold outreach is fine in small, honest volumes. Sends are capped
+            per run, spaced out, and logged, and every message carries an opt-out line.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COVER LETTER ============ -->
+    <section id="cover" class="panel">
+      <div class="panel-head">
+        <p class="eyebrow">From a job description</p>
+        <h2>Write a cover letter</h2>
+        <p class="lede">Paste the full job description. It's matched against your resume and
+          optional company research to write a tailored letter.</p>
+      </div>
+
+      <div class="card">
+        <div class="field-row">
+          <label class="field"><span>Company</span><input id="c-company" placeholder="Optional — will infer from the JD" /></label>
+          <label class="field"><span>Company site (optional)</span><input id="c-url" placeholder="company.com" /></label>
+        </div>
+        <label class="field"><span>Job description</span>
+          <textarea id="c-jd" rows="10" placeholder="Paste the whole posting here…"></textarea></label>
+        <label class="check"><input id="c-research" type="checkbox" checked> Research the company first</label>
+        <button id="btn-gen-cover" class="btn btn-primary">Write cover letter</button>
+        <span id="cover-note" class="note"></span>
+      </div>
+
+      <div id="cover-output" class="card hidden">
+        <label class="field"><span>Cover letter</span><textarea id="cover-text" rows="18"></textarea></label>
+        <button class="btn btn-ghost" data-copy="cover-text">Copy letter</button>
+      </div>
+    </section>
+
+    <!-- ============ ACTIVITY ============ -->
+    <section id="activity" class="panel">
+      <div class="panel-head">
+        <p class="eyebrow">Audit log</p>
+        <h2>Activity</h2>
+        <p class="lede">Every send and preview, recorded locally in your SQLite database.</p>
+      </div>
+      <div class="card">
+        <button id="btn-refresh-log" class="btn btn-ghost">Refresh</button>
+        <div id="log-table"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
